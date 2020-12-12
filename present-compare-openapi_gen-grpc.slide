@@ -5,6 +5,69 @@ API code generators for Go
 Loh Siu Yin
 Technology Consultant
 
+## What is wrong with this code?
+.play -edit monolith/main.go
+
+Shouldn't it use functions?
+
+## Sum function
+.play -edit sum-func/main.go
+
+Shouldn't sum be in a library?
+
+## arith library
+.code sum-lib/main.go
+
+Let's run the code:
+```
+go run sum-lib/main.go
+```
+
+## Should we make Sum a microservice?
+
+Which should we use OpenAPI/Swagger or gRPC?
+
+Lets start with OpenAPI
+
+## OpenAPI
+
+We first create an API specification. The main
+resource is the OpenAPI [specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md).
+
+We then create our arithmetic API using the [swagger editor](https://editor.swagger.io/).
+
+Clear the editor and then copy-paste the following into the editor for validation.
+
+```
+view yaml-spec/arith.yaml
+```
+
+It should look like this:
+
+.image img/swagger-editor.png  300 _
+
+## Client and Server code stub generation
+Swagger editor allows you to generate client and server
+code stubs but I will use openapi-generator instead.
+
+I used the docker image and ran it to generate a `go` client
+and server stub with:
+
+```
+docker run -it --rm --user 1000:1000 \
+ -v /home/siuyin:/h openapitools/openapi-generator-cli:v4.1.3 generate \
+ -i /h/Downloads/arith.yaml -g go -o /h/Downloads/tmp/arith/client
+
+docker run -it --rm --user 1000:1000 \
+ -v /home/siuyin:/h openapitools/openapi-generator-cli:v4.1.3 generate \
+ -i /h/Downloads/arith.yaml -g go-server -o /h/Downloads/tmp/arith/server
+```
+
+The above generated files in `/home/siuyin/Downloads/tmp/arith` `client`
+and `server` folders.
+
+v5.0.0-beta3 seems more complete but breaks go-server generation
+when I tried it. Type incompatibility.
 
 
 ## Presentation and code download

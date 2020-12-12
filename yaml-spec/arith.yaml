@@ -1,0 +1,44 @@
+openapi: "3.0.2"
+info:
+  title: Arith OpenAPI Specification
+  version: "0.1"
+servers:
+- url: http://localhost:8080/
+paths:
+  /sum:
+    get:
+      tags: ["Arithmetic"]
+      summary: Adds two numbers.
+      parameters:
+      - name: sumRequest
+        in: path
+        required: true
+        schema:
+          $ref: '#/components/schemas/SumRequest'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SumResponse'
+components:
+  schemas:
+    SumRequest:
+      type: object
+      properties:
+        a:
+          type: integer
+          format: int64
+          example: 2
+        b:
+          type: integer
+          format: int64
+          example: 3
+    SumResponse:
+      type: object
+      properties:
+        sum:
+          type: integer
+          format: int64
+          example: 5
