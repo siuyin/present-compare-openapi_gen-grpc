@@ -1,9 +1,10 @@
 # Comparing OpenAPI-generator and gRPC 
 API code generators for Go
-12 Dec 2020
+14 Dec 2020
 
 Loh Siu Yin
-Technology Consultant
+Engineering Manager
+siuyin@xendit.co
 
 ## What is wrong with this code?
 .play -edit cmd/monolith/main.go
@@ -260,6 +261,11 @@ go run cmd/gserver/main.go
 
 .code cmd/gclient/main.go /10_OMIT/,/20_OMIT/
 
+Running the client:
+```
+go run cmd/gclient/main.go
+```
+
 ## Benchmarking the gRPC Arith service
 
 .code cmd/gbench/main.go /10_OMIT/,/20_OMIT/
@@ -275,7 +281,7 @@ elapsed time: 0.702216144 (2848.1259183354805 requests/second)
 1. Learn the protocol buffer language to define `.proto` interface files.
 1. Using the generated client is easy:  
  `c := pb.New<your_API>Client(conn)`  
- `r, err := c.<your_API_rpc>(ctx, &pb.<YourRequest>{A: 2, B: 3})`
+ `r, err := c.<your_API_rpc>(ctx, &pb.<yourRequest>{A: 2, B: 3})`
 1. Fleshing out the server stub is easy. No data conversions to/from strings.
 1. Not able to use `curl` to test service.
 
