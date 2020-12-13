@@ -1,0 +1,50 @@
+openapi: 3.0.2
+info:
+  title: Arith OpenAPI Specification
+  version: "0.1"
+servers:
+- url: http://localhost:8080/
+paths:
+  /sum:
+    get:
+      parameters:
+      - example: 2
+        explode: true
+        in: query
+        name: num1
+        required: true
+        schema:
+          $ref: '#/components/schemas/int64'
+        style: form
+      - example: 3
+        explode: true
+        in: query
+        name: num2
+        required: true
+        schema:
+          $ref: '#/components/schemas/int64'
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SumResponse'
+          description: successful operation
+      summary: Adds two numbers.
+      tags:
+      - Arithmetic
+components:
+  schemas:
+    int64:
+      format: int64
+      type: integer
+    SumResponse:
+      example:
+        sum: 5
+      properties:
+        sum:
+          example: 5
+          format: int64
+          type: integer
+      type: object

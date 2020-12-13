@@ -66,7 +66,7 @@ Arithmetic | GET /sum | Try it out | Execute
 
 Copy the curl command and run it locally on your computer:
 ```
-curl -X GET "http://localhost:8080/sum?a=2&b=3" -H  "accept: application/json"
+curl -X GET "http://localhost:8080/sum?num1=2&num2=3" -H  "accept: application/json"
 ```
 
 Trying changing the parameters, re-run and check the results.
@@ -127,6 +127,22 @@ README.md  api_arithmetic.go  configuration.go  git_push.sh  go.sum             
 api/       client.go          docs/             go.mod       model_sum_request.go  response.go
 
 rm git_push.sh go.sum go.mod
+```
+
+cmd/client/main.go:
+
+.code cmd/client/main.go /10_OMIT/,/20_OMIT/
+
+```
+go run cmd/client/main.go
+```
+
+## Completing the generated server stub
+
+```
+cp -r /h/Downloads/tmp/arith/server/ cmd/server
+ls -F cmd/server
+
 ```
 
 ## Presentation and code download
