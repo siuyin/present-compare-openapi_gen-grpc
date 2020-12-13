@@ -71,9 +71,9 @@ curl -X GET "http://localhost:8080/sum?num1=2&num2=3" -H  "accept: application/j
 
 Trying changing the parameters, re-run and check the results.
 
-## Here is one benchmark:
+## Hand-written server benchmarked:
 ```
-ab -n 2000 -c 8 'http://localhost:8080/sum?a=2&b=3'
+ab -n 2000 -c 8 'http://localhost:8080/sum?num1=2&num2=3'
 
 Concurrency Level:      8
 Time taken for tests:   0.391 seconds
@@ -142,8 +142,61 @@ go run cmd/client/main.go
 ```
 cp -r /h/Downloads/tmp/arith/server/ cmd/server
 ls -F cmd/server
-
 ```
+
+Update import path in cmd/server/main.go from:
+```
+sw "./go"
+```
+to
+
+.code cmd/server/main.go /10_OMIT/,/20_OMIT/
+
+
+## Implement the server
+Flesh out the implementation in cmd/server/go/api_arithmetic.go:
+
+.code cmd/server/go/api_arithmetic.go  /10_OMIT/,/20_OMIT/
+
+## Generated server benchmarked:
+```
+ab -n 2000 -c 8 'http://localhost:8080/sum?num1=2&num2=3'
+
+Concurrency Level:      8
+Time taken for tests:   0.543 seconds
+Complete requests:      2000
+Requests per second:    3680.83 [#/sec] (mean)
+
+Percentage of the requests served within a certain time (ms)
+  50%      2
+  66%      2
+  75%      3
+  80%      3
+  90%      4
+  95%      4
+  98%      5
+  99%      6
+ 100%     10 (longest request)
+```
+
+## Notes on using OpenAPI with Go
+
+1. Learn OpenAPI to write API specifications.
+1. editor.swagger.io is a convenient on-line editor and validator.
+1. openapi-generator for `go` is available as a docker container.
+ The client library it generates is easy to use.  
+ `cl := sw.NewAPIClient(sw.NewConfiguration())`  
+ `sum, response, err := cl.{your_API}.SumGet(context.TODO(), {param1}, {param2})`
+1. openapi-generator for `go-server` generates a minimal
+ server stub. The import statement needs to be updated and
+ you provide the implementation in  
+ `go/api_{your_API}.go`
+
+## gRPC
+gRPC is an open source remote procedure call library contributed
+by Google.
+
+It uses protocol buffers instead of JSON to serialize messages.
 
 ## Presentation and code download
 

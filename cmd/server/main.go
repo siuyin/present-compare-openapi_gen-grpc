@@ -13,7 +13,9 @@ import (
 	"log"
 	"net/http"
 
+	// 10_OMIT
 	sw "github.com/siuyin/present-compare-openapi_gen-grpc/cmd/server/go"
+	// 20_OMIT
 )
 
 func main() {

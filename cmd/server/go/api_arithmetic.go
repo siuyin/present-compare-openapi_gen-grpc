@@ -22,12 +22,12 @@ func SumGet(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	a, err := strconv.Atoi(r.FormValue("num1"))
 	if err != nil {
-		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num1")), 500)
+		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num1")), 400)
 		return
 	}
 	b, err := strconv.Atoi(r.FormValue("num2"))
 	if err != nil {
-		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num2")), 500)
+		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num2")), 400)
 		return
 	}
 	// my implementation above
