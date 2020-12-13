@@ -1,0 +1,19 @@
+syntax = "proto3";
+option go_package = "github.com/siuyin/present-compare-openapi_gen-grpc/garith";
+
+// Arith -- arithmetic service definition.
+service Arith {
+  // Sum adds two numbers.
+  rpc Sum (SumRequest) returns (SumResponse) {}
+}
+
+// SumRequest defines the message parameter to the Sum service.
+message SumRequest {
+  int64 a = 1;
+  int64 b = 2;
+}
+
+// SumResponse defines the output message returned by the Sum service.
+message SumResponse {
+  int64 sum = 1;
+}

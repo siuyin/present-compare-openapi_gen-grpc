@@ -182,6 +182,7 @@ Percentage of the requests served within a certain time (ms)
 ## Notes on using OpenAPI with Go
 
 1. Learn OpenAPI to write API specifications.
+ Specs are written in yaml.
 1. editor.swagger.io is a convenient on-line editor and validator.
 1. openapi-generator for `go` is available as a docker container.
  The client library it generates is easy to use.  
@@ -197,6 +198,70 @@ gRPC is an open source remote procedure call library contributed
 by Google.
 
 It uses protocol buffers instead of JSON to serialize messages.
+
+Prerequisites:
+See prerequisites section on [https://grpc.io/docs/languages/go/quickstart/](https://grpc.io/docs/languages/go/quickstart/).
+
+## Service Definition
+Language guide: [https://developers.google.com/protocol-buffers/docs/proto3](https://developers.google.com/protocol-buffers/docs/proto3).
+
+.code proto/arith.proto
+
+The 1's and 2's above are index IDs (slot positions)
+and are not assignments.
+
+## Code generation
+
+```
+mkdir -p garith
+
+protoc --go_out=garith --go_opt=paths=source_relative \
+ --go-grpc_out=garith --go-grpc_opt=paths=source_relative \
+ proto/arith.proto
+```
+The above command generates code in folder garith:
+```
+ls -RF garith
+```
+
+## Implementing the gRPC Arith service
+
+.code cmd/gserver/main.go /10_OMIT/,/20_OMIT/
+
+The Sum, GetA and GetB methods are generated from your proto file.
+
+## gRPC Arith service main boilerplate
+
+.code cmd/gserver/main.go /20_OMIT/,/30_OMIT/
+
+Running the server:
+```
+go run cmd/gserver/main.go
+```
+
+## Using the generated gRPC client
+
+.code cmd/gclient/main.go /10_OMIT/,/20_OMIT/
+
+## Benchmarking the gRPC Arith service
+
+.code cmd/gbench/main.go /10_OMIT/,/20_OMIT/
+
+```
+go run cmd/gbench/main.go
+
+go run cmd/gbench/main.go & go run cmd/gbench/main.go
+```
+
+## Notes on using gRPC with Go
+
+1. Learn the protocol buffer language to define `.proto` interface files.
+1. Using the generated client is easy:  
+ `c := pb.New<your_API>Client(conn)`  
+ `r, err := c.<your_API_rpc>(ctx, &pb.<YourRequest>{A: 2, B: 3})`
+1. Fleshing out the server stub is easy. No data conversions to/from strings.
+1. Not able to use `curl` to test service.
+
 
 ## Presentation and code download
 
