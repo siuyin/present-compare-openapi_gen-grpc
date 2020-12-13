@@ -6,35 +6,35 @@ Loh Siu Yin
 Technology Consultant
 
 ## What is wrong with this code?
-.play -edit monolith/main.go
+.play -edit cmd/monolith/main.go
 
 Shouldn't it use functions?
 
 ## Sum function
-.play -edit sum-func/main.go
+.play -edit cmd/sum-func/main.go
 
 Shouldn't sum be in a library?
 
 ## arith library
-.code sum-lib/main.go
+.code cmd/sum-lib/main.go
 
 Let's run the code:
 ```
-go run sum-lib/main.go
+go run cmd/sum-lib/main.go
 ```
 
 ## Should we make Sum a microservice?
 
 Which should we use OpenAPI/Swagger or gRPC?
 
-Lets start with OpenAPI
+Lets start with OpenAPI.
+
+The main resource is:  
+[https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md).
 
 ## OpenAPI
 
-We first create an API specification. The main
-resource is the OpenAPI [specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md).
-
-We then create our arithmetic API using the [swagger editor](https://editor.swagger.io/).
+Create our arithmetic API using [https://editor.swagger.io/](https://editor.swagger.io/).
 
 Clear the editor and then copy-paste the following into the editor for validation.
 
@@ -45,6 +45,54 @@ view yaml-spec/arith.yaml
 It should look like this:
 
 .image img/swagger-editor.png  300 _
+
+## Sum Server from scratch
+As a learning exercise, I hand-wrote the
+`sum` server from scratch.
+
+.code cmd/server-handwritten/main.go /10_OMIT/,/20_OMIT/
+
+## Testing the API and Server
+
+Run the server:
+```
+go run cmd/server-handwritten/main.go
+```
+
+In the swagger API editor's right-hand pane:
+```
+Arithmetic | GET /sum | Try it out | Execute
+```
+
+Copy the curl command and run it locally on your computer:
+```
+curl -X GET "http://localhost:8080/sum?a=2&b=3" -H  "accept: application/json"
+```
+
+Trying changing the parameters, re-run and check the results.
+
+## Here is one benchmark:
+```
+ab -n 2000 -c 8 'http://localhost:8080/sum?a=2&b=3'
+
+Concurrency Level:      8
+Time taken for tests:   0.391 seconds
+Complete requests:      2000
+Requests per second:    5112.20 [#/sec] (mean)
+
+Percentage of the requests served within a certain time (ms)
+  50%      1
+  66%      2
+  75%      2
+  80%      2
+  90%      2
+  95%      3
+  98%      4
+  99%      5
+ 100%      9 (longest request)
+```
+The above was run on a i3, 4-core laptop.
+ 
 
 ## Client and Server code stub generation
 Swagger editor allows you to generate client and server
@@ -67,8 +115,19 @@ The above generated files in `/home/siuyin/Downloads/tmp/arith` `client`
 and `server` folders.
 
 v5.0.0-beta3 seems more complete but breaks go-server generation
-when I tried it. Type incompatibility.
+due to type incompatibility when I tried it.
 
+## Using the generated client
+
+```
+cp -r /h/Downloads/tmp/arith/client/ client
+cd client
+ls -F
+README.md  api_arithmetic.go  configuration.go  git_push.sh  go.sum                model_sum_response.go
+api/       client.go          docs/             go.mod       model_sum_request.go  response.go
+
+rm git_push.sh go.sum go.mod
+```
 
 ## Presentation and code download
 
