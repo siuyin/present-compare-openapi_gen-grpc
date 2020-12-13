@@ -37,7 +37,6 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [SumRequest](docs/SumRequest.md)
  - [SumResponse](docs/SumResponse.md)
 
 

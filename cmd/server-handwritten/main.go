@@ -15,7 +15,6 @@ func main() {
 
 	http.HandleFunc("/sum", func(w http.ResponseWriter, r *http.Request) {
 		r.ParseForm()
-		fmt.Printf("%v\n", r.FormValue("num1"))
 		a, err := strconv.Atoi(r.FormValue("num1"))
 		if err != nil {
 			http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num1")), 500)

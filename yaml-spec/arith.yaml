@@ -36,17 +36,6 @@ components:
     int64:
       type: integer
       format: int64
-    SumRequest:
-      type: object
-      properties:
-        a:
-          type: integer
-          format: int64
-          example: 2
-        b:
-          type: integer
-          format: int64
-          example: 3
     SumResponse:
       type: object
       properties:
