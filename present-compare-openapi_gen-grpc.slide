@@ -92,6 +92,7 @@ Percentage of the requests served within a certain time (ms)
  100%      9 (longest request)
 ```
 The above was run on a i3, 4-core laptop.
+
  
 
 ## Client and Server code stub generation
@@ -158,6 +159,10 @@ Flesh out the implementation in cmd/server/go/api_arithmetic.go:
 
 .code cmd/server/go/api_arithmetic.go  /10_OMIT/,/20_OMIT/
 
+```
+go run cmd/server/main.go
+```
+
 ## Generated server benchmarked:
 ```
 ab -n 2000 -c 8 'http://localhost:8080/sum?num1=2&num2=3'
@@ -177,6 +182,12 @@ Percentage of the requests served within a certain time (ms)
   98%      5
   99%      6
  100%     10 (longest request)
+```
+
+Concurrency 1:
+```
+ab -n 2000 -c 1 'http://localhost:8080/sum?num1=2&num2=3'
+Requests per second:    1791.98 [#/sec] (mean)
 ```
 
 ## Notes on using OpenAPI with Go
@@ -222,6 +233,12 @@ protoc --go_out=garith --go_opt=paths=source_relative \
 The above command generates code in folder garith:
 ```
 ls -RF garith
+
+garith:
+proto/
+
+garith/proto:
+arith.pb.go  arith_grpc.pb.go
 ```
 
 ## Implementing the gRPC Arith service
@@ -249,8 +266,8 @@ go run cmd/gserver/main.go
 
 ```
 go run cmd/gbench/main.go
+elapsed time: 0.702216144 (2848.1259183354805 requests/second)
 
-go run cmd/gbench/main.go & go run cmd/gbench/main.go
 ```
 
 ## Notes on using gRPC with Go
