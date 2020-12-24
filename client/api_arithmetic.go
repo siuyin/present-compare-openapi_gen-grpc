@@ -25,15 +25,14 @@ var (
 type ArithmeticApiService service
 
 /*
-SumGet Adds two numbers.
+Sum Adds two numbers.
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param num1
- * @param num2
+ * @param sumRequest
 @return SumResponse
 */
-func (a *ArithmeticApiService) SumGet(ctx _context.Context, num1 int64, num2 int64) (SumResponse, *_nethttp.Response, error) {
+func (a *ArithmeticApiService) Sum(ctx _context.Context, sumRequest SumRequest) (SumResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -48,10 +47,8 @@ func (a *ArithmeticApiService) SumGet(ctx _context.Context, num1 int64, num2 int
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
-	localVarQueryParams.Add("num1", parameterToString(num1, ""))
-	localVarQueryParams.Add("num2", parameterToString(num2, ""))
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -67,6 +64,8 @@ func (a *ArithmeticApiService) SumGet(ctx _context.Context, num1 int64, num2 int
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = &sumRequest
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

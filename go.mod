@@ -3,6 +3,7 @@ module github.com/siuyin/present-compare-openapi_gen-grpc
 go 1.15
 
 require (
+	github.com/antihax/optional v1.0.0
 	github.com/golang/protobuf v1.4.3
 	github.com/gorilla/mux v1.8.0
 	github.com/siuyin/dflt v0.0.0-20190616123008-ea16caf9b8ef

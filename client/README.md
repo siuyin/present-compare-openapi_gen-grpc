@@ -32,11 +32,12 @@ All URIs are relative to *http://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ArithmeticApi* | [**SumGet**](docs/ArithmeticApi.md#sumget) | **Get** /sum | Adds two numbers.
+*ArithmeticApi* | [**Sum**](docs/ArithmeticApi.md#sum) | **Post** /sum | Adds two numbers.
 
 
 ## Documentation For Models
 
+ - [SumRequest](docs/SumRequest.md)
  - [SumResponse](docs/SumResponse.md)
 
 

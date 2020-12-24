@@ -10,30 +10,26 @@
 package openapi
 
 import (
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
 	"net/http"
-	"strconv"
 )
 
-// 10_OMIT
-// SumGet - Adds two numbers.
-func SumGet(w http.ResponseWriter, r *http.Request) {
-	// my implementation below
+// Sum - Adds two numbers.
+func Sum(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
-	a, err := strconv.Atoi(r.FormValue("num1"))
+	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
-		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num1")), 400)
-		return
+		log.Println(err)
 	}
-	b, err := strconv.Atoi(r.FormValue("num2"))
-	if err != nil {
-		http.Error(w, fmt.Sprintf("could not parse integer: %s", r.FormValue("num2")), 400)
-		return
+	fmt.Println(string(body))
+	var sr SumRequest
+	if err := json.Unmarshal(body, &sr); err != nil {
+		log.Println(err)
 	}
-	// my implementation above
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, `{"sum":%d}`, a+b) // my implementation
+	fmt.Fprintf(w, `{"sum": %v}`, sr.A+sr.B)
 }
-
-// 20_OMIT

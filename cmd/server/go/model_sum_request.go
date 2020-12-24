@@ -11,7 +11,7 @@ package openapi
 
 type SumRequest struct {
 
-	A int64 `json:"a,omitempty"`
+	A int32 `json:"a,omitempty"`
 
-	B int64 `json:"b,omitempty"`
+	B int32 `json:"b,omitempty"`
 }

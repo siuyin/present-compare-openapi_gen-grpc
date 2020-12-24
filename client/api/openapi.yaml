@@ -4,26 +4,19 @@ info:
   version: "0.1"
 servers:
 - url: http://localhost:8080/
+tags:
+- description: Arithmetic is an arithmetic library.
+  name: Arithmetic
 paths:
   /sum:
-    get:
-      parameters:
-      - example: 2
-        explode: true
-        in: query
-        name: num1
+    post:
+      operationId: sum
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SumRequest'
         required: true
-        schema:
-          $ref: '#/components/schemas/int64'
-        style: form
-      - example: 3
-        explode: true
-        in: query
-        name: num2
-        required: true
-        schema:
-          $ref: '#/components/schemas/int64'
-        style: form
       responses:
         200:
           content:
@@ -36,9 +29,16 @@ paths:
       - Arithmetic
 components:
   schemas:
-    int64:
-      format: int64
-      type: integer
+    SumRequest:
+      example:
+        a: 2
+        b: 3
+      properties:
+        a:
+          type: integer
+        b:
+          type: integer
+      type: object
     SumResponse:
       example:
         sum: 5

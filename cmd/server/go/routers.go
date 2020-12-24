@@ -56,9 +56,9 @@ var routes = Routes{
 	},
 
 	{
-		"SumGet",
-		strings.ToUpper("Get"),
+		"Sum",
+		strings.ToUpper("Post"),
 		"/sum",
-		SumGet,
+		Sum,
 	},
 }

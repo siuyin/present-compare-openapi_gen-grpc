@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost:8080*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**SumGet**](ArithmeticApi.md#SumGet) | **Get** /sum | Adds two numbers.
+[**Sum**](ArithmeticApi.md#Sum) | **Post** /sum | Adds two numbers.
 
 
 
-## SumGet
+## Sum
 
-> SumResponse SumGet(ctx, num1, num2)
+> SumResponse Sum(ctx, sumRequest)
 Adds two numbers.
 
 ### Required Parameters
@@ -19,8 +19,7 @@ Adds two numbers.
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**num1** | **int64**|  | 
-**num2** | **int64**|  | 
+**sumRequest** | [**SumRequest**](SumRequest.md)|  | 
 
 ### Return type
 
@@ -32,7 +31,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

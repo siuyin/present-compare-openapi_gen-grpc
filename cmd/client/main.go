@@ -12,7 +12,7 @@ func main() {
 	// 10_OMIT
 	fmt.Println("arith API client")
 	cl := sw.NewAPIClient(sw.NewConfiguration())
-	sum, _, err := cl.ArithmeticApi.SumGet(context.TODO(), 2, 3)
+	sum, _, err := cl.ArithmeticApi.Sum(context.TODO(), sw.SumRequest{A: 2, B: 3})
 	if err != nil {
 		log.Fatal(err)
 	}
