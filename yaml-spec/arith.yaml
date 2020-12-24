@@ -6,24 +6,22 @@ info:
 servers:
 - url: http://localhost:8080/
 
+tags:
+- name: Arithmetic
+  description: Arithmetic is an arithmetic library.
+
 paths:
   /sum:
-    get:
+    post:
       tags: ["Arithmetic"]
       summary: Adds two numbers.
-      parameters:
-      - name: num1
-        in: query
+      operationId: sum
+      requestBody:
         required: true
-        schema:
-          $ref: '#/components/schemas/int64'
-        example: 2
-      - name: num2
-        in: query
-        required: true
-        schema:
-          $ref: '#/components/schemas/int64'
-        example: 3
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SumRequest'
       responses:
         200:
           description: successful operation
@@ -33,9 +31,14 @@ paths:
                 $ref: '#/components/schemas/SumResponse'
 components:
   schemas:
-    int64:
-      type: integer
-      format: int64
+    SumRequest:
+      type: object
+      properties:
+        a:
+          type: integer
+        b:
+          type: integer
+      example: {"a":2,"b":3}
     SumResponse:
       type: object
       properties:
