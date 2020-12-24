@@ -1,6 +1,6 @@
 # Comparing OpenAPI-generator and gRPC 
 API code generators for Go
-14 Dec 2020
+24 Dec 2020
 
 Loh Siu Yin
 Engineering Manager
@@ -47,54 +47,6 @@ It should look like this:
 
 .image img/swagger-editor.png  300 _
 
-## Sum Server from scratch
-As a learning exercise, I hand-wrote the
-`sum` server from scratch.
-
-.code cmd/server-handwritten/main.go /10_OMIT/,/20_OMIT/
-
-## Testing the API and Server
-
-Run the server:
-```
-go run cmd/server-handwritten/main.go
-```
-
-In the swagger API editor's right-hand pane:
-```
-Arithmetic | GET /sum | Try it out | Execute
-```
-
-Copy the curl command and run it locally on your computer:
-```
-curl -X GET "http://localhost:8080/sum?num1=2&num2=3" -H  "accept: application/json"
-```
-
-Trying changing the parameters, re-run and check the results.
-
-## Hand-written server benchmarked:
-```
-ab -n 2000 -c 8 'http://localhost:8080/sum?num1=2&num2=3'
-
-Concurrency Level:      8
-Time taken for tests:   0.391 seconds
-Complete requests:      2000
-Requests per second:    5112.20 [#/sec] (mean)
-
-Percentage of the requests served within a certain time (ms)
-  50%      1
-  66%      2
-  75%      2
-  80%      2
-  90%      2
-  95%      3
-  98%      4
-  99%      5
- 100%      9 (longest request)
-```
-The above was run on a i3, 4-core laptop.
-
- 
 
 ## Client and Server code stub generation
 Swagger editor allows you to generate client and server
@@ -166,29 +118,30 @@ go run cmd/server/main.go
 
 ## Generated server benchmarked:
 ```
-ab -n 2000 -c 8 'http://localhost:8080/sum?num1=2&num2=3'
+ab -p sum.json -T application/json -c 8 -n 2000 http://localhost:8080/sum
 
 Concurrency Level:      8
-Time taken for tests:   0.543 seconds
+Time taken for tests:   0.414 seconds
 Complete requests:      2000
-Requests per second:    3680.83 [#/sec] (mean)
+Requests per second:    4832.62 [#/sec] (mean)
 
 Percentage of the requests served within a certain time (ms)
-  50%      2
+  50%      1
   66%      2
-  75%      3
-  80%      3
-  90%      4
-  95%      4
-  98%      5
-  99%      6
- 100%     10 (longest request)
+  75%      2
+  80%      2
+  90%      2
+  95%      3
+  98%      4
+  99%      5
+ 100%     14 (longest request)
 ```
+sum.json: {"a":2,"b":3}
 
 Concurrency 1:
 ```
-ab -n 2000 -c 1 'http://localhost:8080/sum?num1=2&num2=3'
-Requests per second:    1791.98 [#/sec] (mean)
+ab -p sum.json -T application/json -c 1 -n 2000 http://localhost:8080/sum
+Requests per second:    1983.03 [#/sec] (mean)
 ```
 
 ## Notes on using OpenAPI with Go

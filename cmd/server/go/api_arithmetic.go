@@ -17,19 +17,30 @@ import (
 	"net/http"
 )
 
+// 10_OMIT
+
 // Sum - Adds two numbers.
 func Sum(w http.ResponseWriter, r *http.Request) {
+	body := getBody(r)
+	sr := decode(body) // decode body to get SumRequest
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, `{"sum": %v}`, sr.A+sr.B)
+}
+
+// 20_OMIT
+func getBody(r *http.Request) []byte {
 	r.ParseForm()
 	body, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Println(err)
 	}
-	fmt.Println(string(body))
+	return body
+}
+func decode(body []byte) *SumRequest {
 	var sr SumRequest
 	if err := json.Unmarshal(body, &sr); err != nil {
 		log.Println(err)
 	}
-	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, `{"sum": %v}`, sr.A+sr.B)
+	return &sr
 }
