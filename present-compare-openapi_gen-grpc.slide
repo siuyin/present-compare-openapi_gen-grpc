@@ -152,7 +152,7 @@ Requests per second:    1983.03 [#/sec] (mean)
 1. openapi-generator for `go` is available as a docker container.
  The client library it generates is easy to use.  
  `cl := sw.NewAPIClient(sw.NewConfiguration())`  
- `sum, response, err := cl.{your_API}.SumGet(context.TODO(), {param1}, {param2})`
+ `sum, response, err := cl.{your_API}.Sum(context.TODO(), {param}...)`
 1. openapi-generator for `go-server` generates a minimal
  server stub. The import statement needs to be updated and
  you provide the implementation in  
